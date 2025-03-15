@@ -9,29 +9,36 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="logo.png" alt="StockSynergy Logo">
-                </a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="register.html">Register/Log In</a></li>
-                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
-                    <li><a href="about.html">About</a></li>
-                   
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </nav>
-            <div class="nav-icons">
-                <a href="account.html"><i class="fas fa-user"></i></a>
-                <a href="search.html"><i class="fas fa-search"></i></a>
+    <!-- Modified header section with login/signup button -->
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="StockSynergy Logo" class="logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="#contact-section">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="header-right">
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="register.html" class="signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+        </div>
+        <div class="user-profile">
+            <a href="#" class="profile-icon"><i class="fas fa-user"></i></a>
+            <div class="dropdown-menu">
+                <a href="profile.html"><i class="fas fa-id-card"></i> Profile</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -130,28 +137,44 @@
         </div>
     </section>
 
-   
     <!-- Contact Section -->
-    <section class="contact">
+    <section id="contact-section" class="contact">
         <div class="container contact-container">
             <div class="contact-info">
                 <h2>Help</h2>
                 <h2>Get In Touch With Us</h2>
-                <img src="logo.png" alt="JKS Logo" class="contact-logo">
+                <img src="logo.png" alt="StockSynergy Logo" class="contact-logo">
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>StockSynergy, Mody University of Science and Technology, Lakshmangarh, Sikar, India</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+91 98 12345678</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>info@stocksynergy.com</p>
+                    </div>
+                </div>
             </div>
             <div class="contact-form">
-                <h3>Write Us An Email</h3>
+                <h3>Send Us A Message</h3>
                 <form>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Your Name" required>
+                        <input type="text" placeholder="Your Name" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Your Email" required>
+                        <input type="email" placeholder="Your Email" required>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Message" rows="4" required></textarea>
+                        <input type="text" placeholder="Subject">
                     </div>
-                    <button type="submit" class="btn-submit">SEND MESSAGE</button>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
             </div>
         </div>
@@ -161,7 +184,7 @@
     <footer>
         <div class="container footer-container">
             <div class="footer-info">
-                <img src="logo.png" alt="JKS Logo" class="footer-logo">
+                <img src="logo.png" alt="StockSynergy Logo" class="footer-logo">
                 <p class="footer-text">
                     StockSynergy was started with a common goal of serving the finance community while they were trying to learn trading. All our mentors have deep experience of stock market which they would like to pass on to future investors.
                 </p>
@@ -188,5 +211,7 @@
             
         </div>
     </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
