@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKS - Stock Market Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="JKS Logo" class="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="about.html">About</a></li>
+               
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="logout.html">Logout</a></li>
+                <li><a href="#" class="profile-icon"><i class="fas fa-user"></i></a></li>
+            </ul>
+        </nav>
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>STOCK MARKET PREDICTION</h1>
+            <h2>YOUR DASHBOARD</h2>
+            <div class="action-buttons">
+                <button class="purple-button"><i class="fas fa-chart-line"></i> PREDICT THE FUTURE?</button>
+               
+            </div>
+        </div>
+    </section>
+
+    <section class="ticker-tape">
+        <div class="ticker-container">
+            <!-- Ticker content will be dynamically added here -->
+        </div>
+    </section>
+
+    <section class="stock-data">
+        <div class="table-container">
+            <table id="stock-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Change</th>
+                        <th>% Change</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Prev</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Stock data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="chart-container">
+            <div id="stock-chart"></div>
+        </div>
+    </section>
+
+    <section class="watchlist">
+        <div class="watchlist-header">
+            <h3>Watchlist</h3>
+            <div class="watchlist-controls">
+                <select>
+                    <option>Overview</option>
+                    <option>Performance</option>
+                    <option>Fundamentals</option>
+                </select>
+                <button class="filter-button"><i class="fas fa-filter"></i></button>
+            </div>
+        </div>
+        <div class="watchlist-stats">
+            <span>47.85 matches</span>
+            <div class="stats-indicators">
+                <span>Long: <span class="green">37.37%</span></span>
+                <span>Short: <span class="red">35.86%</span></span>
+                <span>Both: <span>26.77%</span></span>
+                <span>Vol: <span>???</span></span>
+                <span>Buy Qty: <span>???</span></span>
+                <span>Sell Qty: <span>???</span></span>
+                <span>Bid-Ask: <span>???</span></span>
+                <span>LTP/VWAP: <span>???</span></span>
+                <span>Deliveries: <span>???</span></span>
+                <span>Returns: <span>???</span></span>
+            </div>
+        </div>
+        <table class="watchlist-table">
+            <tbody>
+                <!-- Watchlist data will be populated here -->
+            </tbody>
+        </table>
+    </section>
+
+    <section class="testimonials">
+        <h2>Our Testimonials</h2>
+        <p class="testimonial-intro">We are committed to and guarantee customer satisfaction. Here's what a few people say about us</p>
+        
+        <div class="testimonial-container">
+            <div class="testimonial-navigation">
+                <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="testimonial-carousel">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"I have been a member for over 2 years and this is the best site for stock trading in ways understanding where markets are headed. I am making huge profits daily with your help."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="avatar1.jpg" alt="James T">
+                        <div class="author-info">
+                            <h4>James T.</h4>
+                            <p>CEO</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Such good trading calls in Nifty! Many of my wrong concepts of technical analysis got corrected and I can say confidently I am more equipped now to apply the right tools in market conditions."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="avatar2.jpg" alt="James Walter">
+                        <div class="author-info">
+                            <h4>James Walter</h4>
+                            <p>Software Engineer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"It was good experience for me joining you and taking your services. I learned a lot and made constant progress in trading. Jayesh Sir's teaching style is just excellent."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="avatar3.jpg" alt="Jean Grey">
+                        <div class="author-info">
+                            <h4>Jean Grey</h4>
+                            <p>Banker</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="logo.png" alt="JKS Logo">
+                <p>JKS was started with a common goal of serving the finance community while they make transitions. All our team members bring to table their unique expertise and experience of stock market which they would like to pass on to future investors.</p>
+            </div>
+            
+            <div class="footer-contact">
+                <h3><i class="fas fa-address-book"></i> CONTACT</h3>
+                <div class="office-info">
+                    <h4>India Office</h4>
+                    <p>JKS, Office 206, Hubtown Solaris, Prof. NS Phadke Road,</p>
+                    <p>Ghatkhopar (E) Mumbai, Maharashtra, India</p>
+                    <p><i class="fas fa-phone"></i> +91 98 12345052</p>
+                    <p><i class="fas fa-envelope"></i> info.bom@jks.com</p>
+                </div>
+                <div class="map-container">
+                    <img src="map.png" alt="Office Location Map">
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <h3>Stay Connected</h3>
+            <div class="social-icons">
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="copyright">COPYRIGHT</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
