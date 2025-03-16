@@ -1520,3 +1520,157 @@ nav ul li a.active::after {
         padding: 1.5rem;
     }
 }
+
+/* Additional CSS for Prediction Page */
+
+/* Hero Section - Prediction Page Specific */
+.predict-hero {
+    background-image: url('crypto-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    position: relative;
+}
+
+.predict-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.predict-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.predict-hero h1 {
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Dotted Borders */
+.dotted-border-top, .dotted-border-bottom {
+    height: 10px;
+    background-image: linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+    background-size: 16px 1px;
+    background-repeat: repeat-x;
+}
+
+.dotted-border-top {
+    border-top: 4px solid var(--primary-color);
+}
+
+.dotted-border-bottom {
+    border-bottom: 4px solid var(--primary-color);
+}
+
+/* Prediction Section */
+.prediction-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: #f5f5f5;
+}
+
+.prediction-graphic {
+    max-width: 300px;
+    margin-bottom: 30px;
+}
+
+.prediction-graphic img {
+    width: 100%;
+    height: auto;
+}
+
+.prediction-form-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.prediction-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.prediction-form h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.stock-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.predict-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.predict-button:hover {
+    background-color: #222222;
+}
+
+/* Link Button (for navigation from other pages) */
+a.purple-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 3px;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+a.purple-button:hover {
+    background-color: #b434ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(153, 0, 255, 0.3);
+}
+
+a.purple-button i {
+    font-size: 16px;
+}
+
+/* Responsive adjustments for prediction page */
+@media (max-width: 768px) {
+    .prediction-form {
+        padding: 20px;
+    }
+    
+    .prediction-graphic {
+        max-width: 200px;
+    }
+}

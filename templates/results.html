@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSynergy - Predict The Future</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo.png" alt="StockSynergy Logo" class="logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="dashboard.html">DASHBOARD</a></li>
+                
+                <li><a href="contact.html">CONTACT US</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>PREDICT THE FUTURE</h1>
+        </div>
+    </section>
+
+    <section class="dotted-border-top"></section>
+
+    <section class="prediction-section">
+        <div class="prediction-graphic">
+            <img src="chart-growth.png" alt="Growth Chart">
+        </div>
+        
+        <div class="prediction-form-container">
+            <div class="prediction-form">
+                <h2>PLEASE ENTER A STOCK SYMBOL</h2>
+                <input type="text" placeholder="Company Stock Symbol" class="stock-input">
+                <button class="predict-button">PREDICT THE FUTURE</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="dotted-border-bottom"></section>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="logo.png" alt="StockSynergy Logo">
+                <p>StockSynergy was started with a common goal of serving the finance community while they make transitions. All our team members bring to table their unique expertise and experience of stock market which they would like to pass on to future investors.</p>
+            </div>
+            
+            <div class="footer-contact">
+                <h3><i class="fas fa-address-book"></i> CONTACT</h3>
+                <div class="office-info">
+                    <h4>India Office</h4>
+                    <p>StockSynergy, Mody University of Science and Technology,</p>
+                    <p>Lakshmangarh, Sikar, India</p>
+                    <p><i class="fas fa-phone"></i> +91 98 12345678</p>
+                    <p><i class="fas fa-envelope"></i> info@stocksynergy.com</p>
+                </div>
+                <div class="map-container">
+                    <img src="map.png" alt="Office Location Map">
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <h3>Stay Connected</h3>
+            <div class="social-icons">
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+        <script src="yfin.js"></script>
+        <script src="script.js"></script>
+    </body>
+    </html>
