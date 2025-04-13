@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSynergy - Prediction Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .prediction-results {
+            padding: 2rem;
+            background-color: #f9f9f9;
+        }
+        .results-section {
+            margin-bottom: 2rem;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .results-section h2 {
+            color: #4b2e83;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e6e6e6;
+            padding-bottom: 0.5rem;
+        }
+        .chart-container {
+            margin: 1rem 0;
+            text-align: center;
+        }
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .stat-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-box h3 {
+            margin-bottom: 0.5rem;
+            color: #4b2e83;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        table th, table td {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        table th {
+            background-color: #4b2e83;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn-back {
+            background-color: #4b2e83;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .btn-back:hover {
+            background-color: #6c4bb0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <a href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="StockSynergy Logo" class="logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">HOME</a></li>
+                <li><a href="{{ url_for('dashboard') }}">DASHBOARD</a></li>
+                <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="auth-buttons">
+                <a href="{{ url_for('login') }}" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="#" class="signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>{{ results.ticker }} PREDICTION RESULTS</h1>
+        </div>
+    </section>
+
+    <div class="prediction-results">
+        <div class="results-section">
+            <h2>Stock Price History</h2>
+            <div class="chart-container">
+                <img src="data:image/png;base64,{{ results.price_plot }}" alt="Stock Price History">
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>Stock Analysis</h2>
+            <div class="chart-container">
+                <img src="data:image/png;base64,{{ results.diff_plot }}" alt="Price Differencing">
+            </div>
+            <div class="chart-container">
+                <img src="data:image/png;base64,{{ results.autocorr_plot }}" alt="Autocorrelation">
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>Model Performance</h2>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <h3>Mean Squared Error</h3>
+                    <p class="stat-value">{{ results.mse }}</p>
+                </div>
+                <div class="stat-box">
+                    <h3>SMAPE</h3>
+                    <p class="stat-value">{{ results.smape }}%</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <img src="data:image/png;base64,{{ results.prediction_plot }}" alt="Prediction Performance">
+            </div>
+            <h3>Actual vs Predicted (First 10 Test Points)</h3>
+            {{ results.actual_vs_predicted|safe }}
+        </div>
+
+        <div class="results-section">
+            <h2>Future Predictions</h2>
+            <div class="chart-container">
+                <img src="data:image/png;base64,{{ results.future_plot }}" alt="Future Predictions">
+            </div>
+            <h3>Predicted Prices for Next 10 Business Days</h3>
+            {{ results.future_predictions|safe }}
+        </div>
+
+        <a href="{{ url_for('results') }}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Prediction
+        </a>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="StockSynergy Logo">
+                <p>StockSynergy was started with a common goal of serving the finance community while they make transitions. All our team members bring to table their unique expertise and experience of stock market which they would like to pass on to future investors.</p>
+            </div>
+            
+            <div class="footer-contact">
+                <h3><i class="fas fa-address-book"></i> CONTACT</h3>
+                <div class="office-info">
+                    <h4>India Office</h4>
+                    <p>StockSynergy, Mody University of Science and Technology,</p>
+                    <p>Lakshmangarh, Sikar, India</p>
+                    <p><i class="fas fa-phone"></i> +91 98 12345678</p>
+                    <p><i class="fas fa-envelope"></i> info@stocksynergy.com</p>
+                </div>
+                <div class="map-container">
+                    <img src="{{ url_for('static', filename='map.png') }}" alt="Office Location Map">
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <h3>Stay Connected</h3>
+            <div class="social-icons">
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
