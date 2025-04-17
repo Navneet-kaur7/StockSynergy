@@ -255,7 +255,7 @@ body.logged-in .user-profile {
 /* Hero Section */
 .hero {
     height: 70vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('hero-bg.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('static/hero-bg.jpg');
     background-size: cover;
     background-position: center;
     position: relative;

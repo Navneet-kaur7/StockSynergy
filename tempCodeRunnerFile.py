@@ -256,8 +256,6 @@ def analyze_and_predict_stock(ticker, start_date, end_date):
         # Future predictions
         full_history = list(data[ticker].values)
         last_date = data.index[-1]
-        
-        # Create future dates as datetime objects
         future_dates = pd.date_range(start=last_date + pd.Timedelta(days=1), periods=10, freq='B')
         
         model = ARIMA(full_history, order=(5, 1, 2))
@@ -269,21 +267,11 @@ def analyze_and_predict_stock(ticker, start_date, end_date):
             'Predicted_Price': forecast
         })
         
-        # Plot future predictions - FIX FOR MATPLOTLIB ERROR
+        # Plot future predictions
         plt.figure(figsize=(12, 6))
-        
-        # Convert future dates to matplotlib date format for plotting
-        recent_dates = data.index[-30:]
-        recent_values = data[ticker].values[-30:]
-        
-        # Plot historical data
-        plt.plot(recent_dates, recent_values, color='blue', linewidth=2, label='Historical Prices')
-        
-        # Convert future dates to proper matplotlib format
-        future_dates_list = [pd.to_datetime(date).to_pydatetime() for date in future_dates]
-        plt.plot(future_dates_list, forecast, color='green', linewidth=2, marker='o',
+        plt.plot(data.index[-30:], data[ticker].values[-30:], color='blue', linewidth=2, label='Historical Prices')
+        plt.plot(future_df['Date'], future_df['Predicted_Price'], color='green', linewidth=2, marker='o',
                  linestyle='dashed', label='Future Predictions')
-                 
         plt.axvline(x=last_date, color='red', linestyle='--', label='Prediction Start')
         plt.title(f"{ticker} Future Price Predictions")
         plt.xlabel('Dates')
@@ -297,34 +285,16 @@ def analyze_and_predict_stock(ticker, start_date, end_date):
         results['future_plot'] = base64.b64encode(buf.read()).decode('utf-8')
         plt.close()
         
-        # Format date strings for display in tables
-        future_df['Date'] = future_df['Date'].dt.strftime('%Y-%m-%d') 
-        future_df['Predicted_Price'] = future_df['Predicted_Price'].round(2)
-        
         # Data for display
         results['ticker'] = ticker
+        results['description'] = data.describe().T.to_html(classes='table table-striped')
+        results['actual_vs_predicted'] = pd.DataFrame({
+            'Actual': test_ar,
+            'Predicted': predictions
+        }).head(10).to_html(classes='table table-striped')
         
-        # Improved statistical summary table
-        desc_df = data.describe().T
-        desc_df.index.name = 'Statistic'
-        desc_df = desc_df.reset_index()
-        for col in desc_df.columns:
-            if col != 'Statistic':
-                desc_df[col] = desc_df[col].round(2)  # Round numeric values
-        results['description'] = desc_df.to_html(classes='table table-striped', index=False)
-        
-        # Improved actual vs predicted table
-        comparison_df = pd.DataFrame({
-            'Date': test_data.index.strftime('%Y-%m-%d'),
-            'Actual': np.round(test_ar, 2),
-            'Predicted': np.round(predictions, 2),
-            'Difference': np.round(test_ar - predictions, 2),
-            'Percent_Error': np.round(np.abs((test_ar - predictions) / test_ar) * 100, 2)
-        })
-        results['actual_vs_predicted'] = comparison_df.head(10).to_html(classes='table table-striped', index=False)
-        
-        # Improved future predictions table
-        results['future_predictions'] = future_df.to_html(classes='table table-striped', index=False)
+        # Future predictions as table
+        results['future_predictions'] = future_df.to_html(classes='table table-striped')
         
         return results
     except Exception as e:

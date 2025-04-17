@@ -3,88 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StockSynergy - Prediction Results</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>{{ results.ticker }} - Stock Prediction | StockSynergy</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .prediction-results {
-            padding: 2rem;
-            background-color: #f9f9f9;
+        .prediction-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .results-section {
-            margin-bottom: 2rem;
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .results-section h2 {
-            color: #4b2e83;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #e6e6e6;
-            padding-bottom: 0.5rem;
-        }
-        .chart-container {
-            margin: 1rem 0;
-            text-align: center;
-        }
-        .chart-container img {
-            max-width: 100%;
-            height: auto;
+        
+        .card {
+            background: rgb(33, 6, 6);
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            padding: 20px;
         }
-        .stats-container {
+        
+        .card h2 {
+            color: #FF8C00;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .chart-image {
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        
+        .metrics {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1rem 0;
+            justify-content: space-between;
+            margin: 20px 0;
         }
-        .stat-box {
-            flex: 1;
-            min-width: 200px;
-            padding: 1rem;
-            background-color: #f0f0f0;
-            border-radius: 8px;
+        
+        .metric-box {
+            background: #eceff1;
+            border-radius: 6px;
+            padding: 15px;
+            width: 48%;
             text-align: center;
         }
-        .stat-box h3 {
-            margin-bottom: 0.5rem;
-            color: #4b2e83;
-        }
-        .stat-value {
-            font-size: 1.5rem;
+        
+        .metric-value {
+            font-size: 24px;
             font-weight: bold;
+            color: #9400D3;
         }
-        table {
+        
+        .metric-label {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table.table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1rem 0;
+            margin: 15px 0;
         }
-        table th, table td {
-            padding: 0.75rem;
-            border: 1px solid #ddd;
+        
+        .table th, .table td {
+            padding: 12px;
             text-align: left;
+            border-bottom: 1px solid #38324b;
         }
-        table th {
-            background-color: #4b2e83;
-            color: white;
+        
+        .table th {
+            background-color: #04101c;
+            font-weight: bold;
         }
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
+        
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .btn-back {
-            background-color: #4b2e83;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
+        
+        .column {
+            flex: 1;
+            min-width: 300px;
         }
-        .btn-back:hover {
-            background-color: #6c4bb0;
+        
+        @media (max-width: 768px) {
+            .metrics {
+                flex-direction: column;
+            }
+            
+            .metric-box {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .two-column {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -99,18 +118,10 @@
             <ul>
                 <li><a href="{{ url_for('index') }}">HOME</a></li>
                 <li><a href="{{ url_for('dashboard') }}">DASHBOARD</a></li>
-                <li><a href="{{ url_for('contact') }}">CONTACT US</a></li>
+                <li><a href="{{ url_for('predict_form') }}">Predict</a></li>
+                <li><a href="#contact-section">Contact Us</a></li>
             </ul>
         </nav>
-        <div class="header-right">
-            <div class="search-icon">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="auth-buttons">
-                <a href="{{ url_for('login') }}" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
-                <a href="#" class="signup-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
-            </div>
-        </div>
     </header>
 
     <section class="hero">
@@ -119,56 +130,113 @@
         </div>
     </section>
 
-    <div class="prediction-results">
-        <div class="results-section">
-            <h2>Stock Price History</h2>
-            <div class="chart-container">
-                <img src="data:image/png;base64,{{ results.price_plot }}" alt="Stock Price History">
+    <section class="dotted-border-top"></section>
+
+    <div class="prediction-container">
+        <!-- Price Charts Section -->
+        <div class="card">
+            <h2>HISTORICAL PRICE ANALYSIS</h2>
+            <img src="data:image/png;base64,{{ results.price_plot }}" alt="Price Plot" class="chart-image">
+        </div>
+        
+        <!-- Technical Analysis Section -->
+        <div class="two-column">
+            <div class="column card">
+                <h2>DIFFERENCING ANALYSIS</h2>
+                <img src="data:image/png;base64,{{ results.diff_plot }}" alt="Differencing Plot" class="chart-image">
+            </div>
+            
+            <div class="column card">
+                <h2>AUTOCORRELATION ANALYSIS</h2>
+                <img src="data:image/png;base64,{{ results.autocorr_plot }}" alt="Autocorrelation Plot" class="chart-image">
             </div>
         </div>
-
-        <div class="results-section">
-            <h2>Stock Analysis</h2>
-            <div class="chart-container">
-                <img src="data:image/png;base64,{{ results.diff_plot }}" alt="Price Differencing">
-            </div>
-            <div class="chart-container">
-                <img src="data:image/png;base64,{{ results.autocorr_plot }}" alt="Autocorrelation">
-            </div>
-        </div>
-
-        <div class="results-section">
-            <h2>Model Performance</h2>
-            <div class="stats-container">
-                <div class="stat-box">
-                    <h3>Mean Squared Error</h3>
-                    <p class="stat-value">{{ results.mse }}</p>
+        
+        <!-- Prediction Results Section -->
+        <div class="card">
+            <h2>PREDICTION PERFORMANCE</h2>
+            <div class="metrics">
+                <div class="metric-box">
+                    <div class="metric-value">{{ results.mse }}</div>
+                    <div class="metric-label">Mean Squared Error</div>
                 </div>
-                <div class="stat-box">
-                    <h3>SMAPE</h3>
-                    <p class="stat-value">{{ results.smape }}%</p>
+                <div class="metric-box">
+                    <div class="metric-value">{{ results.smape }}%</div>
+                    <div class="metric-label">Symmetric Mean Absolute Percentage Error</div>
                 </div>
             </div>
-            <div class="chart-container">
-                <img src="data:image/png;base64,{{ results.prediction_plot }}" alt="Prediction Performance">
-            </div>
-            <h3>Actual vs Predicted (First 10 Test Points)</h3>
-            {{ results.actual_vs_predicted|safe }}
+            
+            <img src="data:image/png;base64,{{ results.prediction_plot }}" alt="Prediction Plot" class="chart-image">
         </div>
-
-        <div class="results-section">
-            <h2>Future Predictions</h2>
-            <div class="chart-container">
-                <img src="data:image/png;base64,{{ results.future_plot }}" alt="Future Predictions">
+        
+        <!-- Future Predictions Section -->
+        <div class="card">
+            <h2>FUTURE PRICE PREDICTIONS</h2>
+            <img src="data:image/png;base64,{{ results.future_plot }}" alt="Future Predictions Plot" class="chart-image">
+            
+            <div class="table-container">
+                <h3>Predicted Prices for Next 10 Business Days</h3>
+                {% if results.future_predictions %}
+                    {{ results.future_predictions|safe }}
+                {% else %}
+                    <p>No future prediction data available.</p>
+                {% endif %}
             </div>
-            <h3>Predicted Prices for Next 10 Business Days</h3>
-            {{ results.future_predictions|safe }}
         </div>
-
-        <a href="{{ url_for('results') }}" class="btn-back">
-            <i class="fas fa-arrow-left"></i> Back to Prediction
-        </a>
+        
+        <!-- Statistical Description Section -->
+        <div class="card">
+            <h2>STATISTICAL SUMMARY</h2>
+            <div class="table-container">
+                {% if results.description %}
+                    {{ results.description|safe }}
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Statistic</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>No statistical data available</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Model Validation Section -->
+        <div class="card">
+            <h2>MODEL VALIDATION</h2>
+            <div class="table-container">
+                <h3>Sample of Actual vs Predicted Prices</h3>
+                {% if results.actual_vs_predicted %}
+                    {{ results.actual_vs_predicted|safe }}
+                {% else %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Actual</th>
+                                <th>Predicted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>No validation data available</td><td>-</td><td>-</td></tr>
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Go Back Button -->
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ url_for('predict_form') }}" style="padding: 12px 30px; background-color: #9400D3; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">MAKE ANOTHER PREDICTION</a>
+        </div>
     </div>
+
+    <section class="dotted-border-bottom"></section>
 
     <footer>
         <div class="footer-top">
@@ -202,8 +270,5 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
