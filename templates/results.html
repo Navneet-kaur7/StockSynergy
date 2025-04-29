@@ -6,6 +6,94 @@
     <title>StockSynergy - Stock Prediction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .error-message {
+            color: #e74c3c;
+            background-color: #fde2e2;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            font-size: 14px;
+        }
+        
+        .warning-message {
+            color: #f39c12;
+            background-color: #fef5e7;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+            font-size: 14px;
+        }
+        
+        .success-message {
+            color: #27ae60;
+            background-color: #e9f7ef;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #27ae60;
+            font-size: 14px;
+        }
+        
+        .info-message {
+            color: #3498db;
+            background-color: #ebf5fb;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            font-size: 14px;
+        }
+        
+        .flash-message {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .flash-message.error {
+            color: #e74c3c;
+            background-color: #fde2e2;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .flash-message.success {
+            color: #27ae60;
+            background-color: #e9f7ef;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .flash-message.warning {
+            color: #f39c12;
+            background-color: #fef5e7;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .flash-message.info {
+            color: #3498db;
+            background-color: #ebf5fb;
+            border-left: 4px solid #3498db;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .network-error {
+            display: none;
+            color: #e74c3c;
+            background-color: #fde2e2;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -38,28 +126,78 @@
         </div>
         
         <div class="prediction-form-container">
-            <div class="prediction-form" style="background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <div class="prediction-form" style="background-color: rgb(12, 2, 2); padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
                 <h2 style="color: #FF8C00; text-align: center; margin-bottom: 30px;">PLEASE ENTER A STOCK SYMBOL AND DATE RANGE</h2>
+                
+                <!-- Network connection error message -->
+                <div id="network-error" class="network-error">
+                    <i class="fas fa-exclamation-circle"></i> Unable to connect to server. Please check your internet connection and try again.
+                </div>
+                
+                <!-- Server-side error messages -->
                 {% if error %}
-                <div class="error-message">{{ error }}</div>
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> {{ error }}
+                </div>
                 {% endif %}
+                
+                <!-- Flash messages -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}
-                        <div class="flash-message {{ category }}">{{ message }}</div>
+                        <div class="flash-message {{ category }}">
+                            {% if category == 'error' %}
+                                <i class="fas fa-exclamation-circle"></i>
+                            {% elif category == 'success' %}
+                                <i class="fas fa-check-circle"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fas fa-exclamation-triangle"></i>
+                            {% elif category == 'info' %}
+                                <i class="fas fa-info-circle"></i>
+                            {% endif %}
+                            {{ message }}
+                        </div>
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                <form action="{{ url_for('analyze') }}" method="POST">
-                    <input type="text" name="ticker" placeholder="Company Stock Symbol" class="stock-input" style="width: 100%; padding: 12px; border: 1px solid #ddd; margin-bottom: 20px; font-size: 16px;">
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <input type="date" id="start_date" name="start_date" class="date-input" style="width: 48%; padding: 10px; border: 1px solid #ddd; color: black;">
-                        
-                        <input type="date" id="end_date" name="end_date" class="date-input" style="width: 48%; padding: 10px; border: 1px solid #ddd; color: black;">
+                
+                <form action="{{ url_for('analyze') }}" method="POST" id="predict-form">
+                    <div class="form-group">
+                        <label for="ticker" class="required-field">Company Stock Symbol:</label>
+                        <input type="text" id="ticker" name="ticker" placeholder="e.g., AAPL, MSFT, RELIANCE.NS" class="stock-input" style="width: 100%; padding: 12px; border: 1px solid #ddd; margin-bottom: 20px; font-size: 16px;" required>
+                        <div id="ticker-error" class="error-message" style="display: none;">
+                            <i class="fas fa-exclamation-circle"></i> Please enter a valid stock symbol
+                        </div>
                     </div>
                     
-                    <button type="submit" class="predict-button" style="width: 100%; padding: 15px; background-color: #9400D3; color: white; border: none; font-weight: bold; font-size: 16px; cursor: pointer;">PREDICT THE FUTURE</button>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div style="width: 48%;">
+                            <label for="start_date" class="required-field">Start Date:</label>
+                            <input type="date" id="start_date" name="start_date" class="date-input" style="width: 100%; padding: 10px; border: 1px solid #ddd; color: black;" required>
+                            <div id="start-date-error" class="error-message" style="display: none;">
+                                <i class="fas fa-exclamation-circle"></i> Please select a valid start date
+                            </div>
+                        </div>
+                        
+                        <div style="width: 48%;">
+                            <label for="end_date" class="required-field">End Date:</label>
+                            <input type="date" id="end_date" name="end_date" class="date-input" style="width: 100%; padding: 10px; border: 1px solid #ddd; color: black;" required>
+                            <div id="end-date-error" class="error-message" style="display: none;">
+                                <i class="fas fa-exclamation-circle"></i> Please select a valid end date
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="date-range-error" class="error-message" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i> End date must be after start date
+                    </div>
+                    
+                    <button type="submit" id="predict-button" class="predict-button" style="width: 100%; padding: 15px; background-color: #9400D3; color: white; border: none; font-weight: bold; font-size: 16px; cursor: pointer;">
+                        <span id="button-text">PREDICT THE FUTURE</span>
+                        <span id="button-loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> PROCESSING...
+                        </span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -103,9 +241,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
-        // Set default dates (optional)
         document.addEventListener('DOMContentLoaded', function() {
-            // Optional: Set default dates
+            // Set default dates
             const today = new Date();
             const oneYearAgo = new Date();
             oneYearAgo.setFullYear(today.getFullYear() - 1);
@@ -118,9 +255,117 @@
                 return `${year}-${month}-${day}`;
             };
 
-            // You can uncomment these lines to set default values
-            // document.getElementById('start_date').value = formatDate(oneYearAgo);
-            // document.getElementById('end_date').value = formatDate(today);
+            // Set default date values
+            document.getElementById('start_date').value = formatDate(oneYearAgo);
+            document.getElementById('end_date').value = formatDate(today);
+            
+            // Form validation
+            const form = document.getElementById('predict-form');
+            const tickerInput = document.getElementById('ticker');
+            const startDateInput = document.getElementById('start_date');
+            const endDateInput = document.getElementById('end_date');
+            const tickerError = document.getElementById('ticker-error');
+            const startDateError = document.getElementById('start-date-error');
+            const endDateError = document.getElementById('end-date-error');
+            const dateRangeError = document.getElementById('date-range-error');
+            const predictButton = document.getElementById('predict-button');
+            const buttonText = document.getElementById('button-text');
+            const buttonLoading = document.getElementById('button-loading');
+            
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
+                
+                // Reset all errors
+                tickerError.style.display = 'none';
+                startDateError.style.display = 'none';
+                endDateError.style.display = 'none';
+                dateRangeError.style.display = 'none';
+                
+                // Validate ticker
+                if (!tickerInput.value.trim()) {
+                    tickerError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate dates
+                if (!startDateInput.value) {
+                    startDateError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (!endDateInput.value) {
+                    endDateError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate date range
+                if (startDateInput.value && endDateInput.value) {
+                    const startDate = new Date(startDateInput.value);
+                    const endDate = new Date(endDateInput.value);
+                    
+                    if (endDate <= startDate) {
+                        dateRangeError.style.display = 'block';
+                        isValid = false;
+                    }
+                }
+                
+                if (isValid) {
+                    // Show loading state
+                    buttonText.style.display = 'none';
+                    buttonLoading.style.display = 'inline-block';
+                    
+                    // Check for network connectivity
+                    if (!navigator.onLine) {
+                        event.preventDefault();
+                        document.getElementById('network-error').style.display = 'block';
+                        buttonText.style.display = 'inline-block';
+                        buttonLoading.style.display = 'none';
+                        return false;
+                    }
+                } else {
+                    event.preventDefault();
+                }
+            });
+            
+            // Live validation for ticker
+            tickerInput.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    tickerError.style.display = 'none';
+                }
+            });
+            
+            // Live validation for dates
+            startDateInput.addEventListener('change', function() {
+                startDateError.style.display = 'none';
+                validateDateRange();
+            });
+            
+            endDateInput.addEventListener('change', function() {
+                endDateError.style.display = 'none';
+                validateDateRange();
+            });
+            
+            function validateDateRange() {
+                if (startDateInput.value && endDateInput.value) {
+                    const startDate = new Date(startDateInput.value);
+                    const endDate = new Date(endDateInput.value);
+                    
+                    if (endDate <= startDate) {
+                        dateRangeError.style.display = 'block';
+                    } else {
+                        dateRangeError.style.display = 'none';
+                    }
+                }
+            }
+            
+            // Check for online status changes
+            window.addEventListener('online', function() {
+                document.getElementById('network-error').style.display = 'none';
+            });
+            
+            window.addEventListener('offline', function() {
+                document.getElementById('network-error').style.display = 'block';
+            });
         });
     </script>
 </body>
