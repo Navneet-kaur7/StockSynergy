@@ -308,17 +308,17 @@ def index():
 
 @app.route('/dashboard')
 def dashboard():
-    # Use Indian stocks default watchlist
+    
     watchlist_data = get_watchlist_data(DEFAULT_WATCHLIST)
     return render_template('dashboard.html', watchlist=watchlist_data['watchlist'], stats=watchlist_data['stats'])
 
-# Modified to show a message that this feature is disabled
+
 @app.route('/add_to_watchlist', methods=['POST'])
 def add_to_watchlist():
     flash("Watchlist customization is disabled", "info")
     return redirect(url_for('dashboard'))
 
-# Modified to show a message that this feature is disabled
+
 @app.route('/remove_from_watchlist', methods=['POST'])
 def remove_from_watchlist():
     flash("Watchlist customization is disabled", "info")
@@ -387,36 +387,12 @@ def api_predict():
         traceback.print_exc()
         return jsonify({'error': 'Internal server error'}), 500
 
-@app.route('/login', methods=['GET'])
-def login():
-    return render_template('login.html')
 
-@app.route('/login_process', methods=['POST'])
-def login_process():
-    # Process login form
-    email = request.form.get('email')
-    password = request.form.get('password')
-    # Add your authentication logic here
-    session['logged_in'] = True
-    flash("Login successful!", "success")
-    return redirect(url_for('dashboard'))
 
-@app.route('/register', methods=['GET'])
-def register():
-    return render_template('register.html')
 
-@app.route('/register_process', methods=['POST'])
-def register_process():
-    # Process registration form
-    flash("Registration successful! Please log in.", "success")
-    return redirect(url_for('login'))
 
-@app.route('/logout')
-def logout():
-    # Handle logout logic
-    session.clear()
-    flash("You have been logged out.", "info")
-    return redirect(url_for('index'))
+
+
 
 @app.route('/contact')
 def contact():
