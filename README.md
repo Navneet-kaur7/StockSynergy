@@ -1,6 +1,3 @@
-Here is a **clean, professional README.md** for your **StockSynergy** project:
-
----
 
 # **StockSynergy**
 
@@ -135,6 +132,3 @@ This project is licensed under the **MIT License** - feel free to use it in your
 
 If you have questions or need guidance while using StockSynergy, feel free to reach out.
 
----
-
-If you would like, I can also generate a **`requirements.txt`** and a **clean GitHub repo structure** to upload your project systematically for your portfolio and internship demonstration. Let me know!
